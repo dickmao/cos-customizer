@@ -1,0 +1,18 @@
+steps:
+- name: 'gcr.io/api-project-421333809285/cos-customizer'
+  args: ['start-image-build',
+         '-image-name=cos-85-gat-latest',
+         '-image-project=api-project-421333809285',
+         '-gcs-bucket=api-project-421333809285_cloudbuild',
+         '-gcs-workdir=image-build']
+- name: 'gcr.io/api-project-421333809285/cos-customizer'
+  args: ['run-script',
+         '-script=preload.sh']
+- name: 'gcr.io/api-project-421333809285/cos-customizer'
+  args: ['finish-image-build',
+         '-zone=us-central1-b',
+         '-disk-size-gb=40',
+         '-project=api-project-421333809285',
+         '-image-name=cos-85-gat-preloaded',
+         '-image-project=api-project-421333809285']
+timeout: '1500s'

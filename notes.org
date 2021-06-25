@@ -1,0 +1,20 @@
+* work from source
+docker tag bazel:cos_customizer gcr.io/`gcloud config get-value core/project`/cos-customizer
+docker push gcr.io/`gcloud config get-value core/project`/cos-customizer
+gcloud compute images delete -q cos-85-gat-preloaded ; gcloud builds submit --config=what.yaml .
+cos-customizer
+  main.go
+    DefaultFiles (file_system.go)
+      finish-image-build (what.yaml)
+        FinishImageBuild.Execute
+          preloader.BuildImage
+            daisyArgs
+              daisyWorkflow (build_image.wf.json)
+                https://googlecloudplatform.github.io/compute-image-tools/daisy-workflow-config-spec.html
+                writeDailyWorkflow
+
+"os images" in "compute engine storage", not gcs, not gcr.
+wtf is "Machine Images" under compute engine.  I think it's just a cannibalize
+of running vm's to do what cos-customizer already does offline.
+(what.yaml) -gcs-bucket=api-project-421333809285_cloudbuild
+https://console.cloud.google.com/storage/browser/api-project-421333809285_cloudbuild/source?authuser=1&project=api-project-421333809285
